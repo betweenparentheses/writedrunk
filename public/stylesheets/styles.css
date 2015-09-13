@@ -5,6 +5,7 @@ body{
   padding-bottom: 60px;
 }
 
+
 body.sober {
   background-color: #DDA;
   color: #553;
@@ -16,6 +17,10 @@ body.sober .row {
   font-size: 18px;
 }
 
+#main{
+  background-color: black;
+}
+
 body.sober #main {
   background-color: #DDA;
 }
@@ -23,16 +28,22 @@ body.sober #main {
 #main:fullscreen{
   height:100%;
   width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 #main:-webkit-full-screen{
   height:100%;
   width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 #main:-moz-full-screen{
   height:100%;
   width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .row {

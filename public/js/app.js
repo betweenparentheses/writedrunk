@@ -169,4 +169,6 @@ $(document).ready(function(){
 
 
   Backbone.history.start({pushState: true});
+
+  $('#intro-modal').modal();
 })

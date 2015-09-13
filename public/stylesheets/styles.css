@@ -5,6 +5,11 @@ body{
   padding-bottom: 60px;
 }
 
+.navbar{
+  background-color: black;
+  border-bottom: 1px solid #999;
+}
+
 
 body.sober {
   background-color: #DDA;
@@ -68,4 +73,20 @@ textarea {
   height: 100%;
   min-height: 600px;
   font-family: "Cousine", monospace;
+}
+
+.modal-content {
+  color: #A4A;
+  background-color: #222;
+  border: 1px solid #A4A;
+}
+
+.modal-backdrop {
+  color: black;
+  opacity: 0.9;
+}
+
+.close {
+  color: #A4A;
+  text-shadow:none;
 }

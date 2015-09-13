@@ -1,3 +1,5 @@
+window.HOST = window.location.href;
+
 
 // MODELS
 
@@ -141,8 +143,8 @@ $(document).ready(function(){
       // here, ensure that it was a left-mouse-button click. middle click should be
       // allowed to pass through
       event.preventDefault();
-      console.log(this.pathname.slice(1));
-      router.navigate(this.pathname.slice(1), {trigger: true});
+      console.log(this.href.slice(window.HOST.length));
+      router.navigate(this.href.slice(window.HOST.length), {trigger: true});
   });
 
 

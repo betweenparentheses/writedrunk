@@ -32,7 +32,13 @@ var WriteRouter = Backbone.Router.extend({
   },
 
   goDrunk: function(){
-    this.navigate('drunk');
+    var self = this,
+        visitDrunk = function (e) {
+          self.navigate('drunk', {trigger: true});
+        };
+
+    $('#intro-modal').modal();
+    $('#intro-modal').on('hidden.bs.modal', visitDrunk)
   },
 
   drunk: function() {
@@ -67,7 +73,7 @@ var WriteSpace = Backbone.View.extend({
 
   initialize: function() {
     this.render();
-    // this.listenTo(this.model, "change", this.render);
+    this.$('textarea').focus();
   },
 
   render: function() {
@@ -99,6 +105,7 @@ var WriteSpace = Backbone.View.extend({
   },
 
   close: function(){
+    this.grabParagraph();
     this.remove();
     $(document.body).append('<div class="container" id="main"></div>')
   }
@@ -170,5 +177,5 @@ $(document).ready(function(){
 
   Backbone.history.start({pushState: true});
 
-  $('#intro-modal').modal();
+
 })

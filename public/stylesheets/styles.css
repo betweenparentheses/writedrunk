@@ -10,17 +10,29 @@ body.sober {
   color: #553;
 }
 
-#main:fullscreen {
-  height: 100%;
-}
-
 body.sober .row {
   background-color: #DDA;
   color: #553;
+  font-size: 18px;
 }
 
-body.sober .row textarea {
+body.sober #main {
   background-color: #DDA;
+}
+
+#main:fullscreen{
+  height:100%;
+  width: 100%;
+}
+
+#main:-webkit-full-screen{
+  height:100%;
+  width: 100%;
+}
+
+#main:-moz-full-screen{
+  height:100%;
+  width: 100%;
 }
 
 .row {

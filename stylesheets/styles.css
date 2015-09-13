@@ -10,6 +10,10 @@ body.sober {
   color: #553;
 }
 
+#main:fullscreen {
+  height: 100%;
+}
+
 body.sober .row {
   background-color: #DDA;
   color: #553;

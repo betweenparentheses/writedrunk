@@ -1,5 +1,3 @@
-window.HOST = window.location.href;
-
 
 // MODELS
 
@@ -28,8 +26,13 @@ var WriteRouter = Backbone.Router.extend({
   collection: new Entry(),
 
   routes: {
-    "":             "drunk",
+    "":             "goDrunk",
+    "drunk":        "drunk",
     "sober":        "sober"
+  },
+
+  goDrunk: function(){
+    this.navigate('drunk');
   },
 
   drunk: function() {
@@ -143,8 +146,7 @@ $(document).ready(function(){
       // here, ensure that it was a left-mouse-button click. middle click should be
       // allowed to pass through
       event.preventDefault();
-      console.log(this.href.slice(window.HOST.length));
-      router.navigate(this.href.slice(window.HOST.length), {trigger: true});
+      router.navigate(this.pathname.slice(1), {trigger: true});
   });
 
 

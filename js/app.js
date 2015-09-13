@@ -115,7 +115,7 @@ var ReadSpace = Backbone.View.extend({
     var self = this;
 
     this.collection.each(function(graf){
-      self.$el.append( self.template({paragraph: graf.get('text')}) )
+      self.$el.find('.col-sm-8').append( self.template({paragraph: graf.get('text')}) )
     });
   },
 
@@ -137,7 +137,7 @@ $(document).ready(function(){
 
 
   // turn on event handling for internal links
-  $(document).on('click', 'a', function (event) {
+  $(document).on('click', '.bb-link', function (event) {
       // here, ensure that it was a left-mouse-button click. middle click should be
       // allowed to pass through
       event.preventDefault();
@@ -146,9 +146,13 @@ $(document).ready(function(){
   });
 
 
-  var main = document.getElementById('main');
-  $(document).on('click', '.fullscreen', function(){
+  $(document).on('click', '.fullscreen', function(e){
     // get native DOM element
+
+    // must be new for now, because main gets swapped out
+    var main = document.getElementById('main');
+
+    e.preventDefault();
 
     if (main.requestFullscreen) {
       main.requestFullscreen();

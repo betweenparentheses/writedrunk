@@ -142,27 +142,20 @@ var ReadSpace = Backbone.View.extend({
 
 
 
-// INIT
+// INIT SECTION!!!!s
 
 $(document).ready(function(){
   window.router = new WriteRouter();
 
-
   // turn on event handling for internal links
   $(document).on('click', '.bb-link', function (event) {
-      // here, ensure that it was a left-mouse-button click. middle click should be
-      // allowed to pass through
       event.preventDefault();
       router.navigate(this.pathname.slice(1), {trigger: true});
   });
 
 
   $(document).on('click', '.fullscreen', function(e){
-    // get native DOM element
-
-    // must be new for now, because main gets swapped out
     var main = document.getElementById('main');
-
     e.preventDefault();
 
     if (main.requestFullscreen) {
@@ -174,8 +167,6 @@ $(document).ready(function(){
     }
   });
 
-
   Backbone.history.start({pushState: true});
-
 
 })

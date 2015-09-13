@@ -15,7 +15,13 @@ var Paragraph = Backbone.Model.extend({
 // COLLECTIONS
 
 var Entry = Backbone.Collection.extend({
-  model: Paragraph
+  model: Paragraph,
+
+  textString: function(){
+    return this.reduce(function(memo, paragraph){
+      return memo + paragraph.get('text') + "\n"
+    }, "")
+  }
 });
 
 
@@ -124,11 +130,15 @@ var ReadSpace = Backbone.View.extend({
   },
 
   render: function(){
-    var self = this;
-
+    var self = this,
+        $workspace = this.$('.col-sm-8'),
+        formString = '<div class ="form-group"><form action = "http://editsober.herokuapp.com/txt" method="POST"><input type="hidden" name="token" value="s3cret-W0wWwWw"><input type="hidden" class="textstring" name="text" value=""><input type="submit" value="Save as TXT file" class="btn btn-primary pull-right"></form></div>';
+    $workspace.html(formString)
     this.collection.each(function(graf){
-      self.$el.find('.col-sm-8').append( self.template({paragraph: graf.get('text')}) )
+      $workspace.append( self.template({paragraph: graf.get('text')}) )
     });
+
+    this.$('.textstring').val(this.collection.textString());
   },
 
   close: function(){

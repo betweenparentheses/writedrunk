@@ -146,6 +146,7 @@ var ReadSpace = Backbone.View.extend({
     switch(e.which){
       case 8: //backspace
       case 13: //enter
+      case 32: //spacebar
       case 46: //delete
         this.persistChanges();
       case 37: // arrows

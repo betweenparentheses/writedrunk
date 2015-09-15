@@ -1,7 +1,9 @@
 
 // MODELS
 
-var Paragraph = Backbone.Model.extend({
+var Entry = Backbone.Model.extend({
+
+  url: "http://editsober.herokuapp.com/entries",
 
   defaults: {
     text: "",
@@ -12,24 +14,13 @@ var Paragraph = Backbone.Model.extend({
 
 });
 
-// COLLECTIONS
-
-var Entry = Backbone.Collection.extend({
-  model: Paragraph,
-
-  textString: function(){
-    return this.reduce(function(memo, paragraph){
-      return memo + paragraph.get('text') + "\n"
-    }, "")
-  }
-});
 
 
 // ROUTER
 
 var WriteRouter = Backbone.Router.extend({
 
-  collection: new Entry(),
+  model: new Entry(),
 
   routes: {
     "":             "goDrunk",
@@ -59,7 +50,7 @@ var WriteRouter = Backbone.Router.extend({
   loadView : function(view) {
     // either run the close function or the plain old remove function
     this.view && (this.view.close ? this.view.close() : this.view.remove());
-    this.view = new view({collection: this.collection});
+    this.view = new view({model: this.model});
   }
 
 });
@@ -88,10 +79,8 @@ var WriteSpace = Backbone.View.extend({
 
   grabParagraph: function(){
     var $writespace = this.$('#writespace');
-
-    this.collection.add( new Paragraph({
-      text: $writespace.val(),
-    }) )
+    var newText = this.model.get('text') + '\n' + $writespace.val();
+    this.model.set('text', newText);
     $writespace.val('');
   },
 
@@ -132,13 +121,15 @@ var ReadSpace = Backbone.View.extend({
   render: function(){
     var self = this,
         $workspace = this.$('.col-sm-8'),
+        paragraphs = this.model.get('text').split('\n'),
         formString = '<div class ="form-group"><form action = "http://editsober.herokuapp.com/txt" method="POST"><input type="hidden" name="token" value="s3cret-W0wWwWw"><input type="hidden" class="textstring" name="text" value=""><input type="submit" value="Save as TXT file" class="btn btn-primary pull-right"></form></div>';
+
     $workspace.html(formString)
-    this.collection.each(function(graf){
-      $workspace.append( self.template({paragraph: graf.get('text')}) )
+    _.each(paragraphs, function(graf){
+      $workspace.append( self.template({paragraph: graf }) )
     });
 
-    this.$('.textstring').val(this.collection.textString());
+    this.$('.textstring').val(this.model.get('text'));
   },
 
   close: function(){

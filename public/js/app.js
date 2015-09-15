@@ -78,8 +78,17 @@ var WriteSpace = Backbone.View.extend({
   },
 
   grabParagraph: function(){
-    var $writespace = this.$('#writespace');
-    var newText = this.model.get('text') + '\n' + $writespace.val();
+    var $writespace = this.$('#writespace'),
+        newText;
+
+    if(!$writespace.val().length){
+      return;
+    } else if (!this.model.get('text').length){
+      newText = $writespace.val();
+    } else {
+      newText = this.model.get('text') + '\n\n' + $writespace.val();
+    }
+
     this.model.set('text', newText);
     $writespace.val('');
   },
@@ -87,9 +96,10 @@ var WriteSpace = Backbone.View.extend({
   keyEvent: function(e) {
     switch(e.which){
       case 8: //backspace
-        event.preventDefault();
+        e.preventDefault();
         break;
       case 13: //enter
+        e.preventDefault();
         this.grabParagraph();
         break;
       default:
@@ -112,27 +122,53 @@ var ReadSpace = Backbone.View.extend({
 
   template: _.template('<p class="paragraph"><%= paragraph %></p>'),
 
+  events: {
+    "keydown #readspace" : "keyEvent"
+  },
+
   initialize: function(){
     $(document.body).addClass('sober');
-    this.$el.html('<div class="row"><div class="col-sm-8 col-sm-offset-2"></div></div>');
+    this.$el.html('<div class="row"><div class="col-sm-8 col-sm-offset-2 readcolumn"></div></div>');
     this.render()
   },
 
   render: function(){
     var self = this,
-        $workspace = this.$('.col-sm-8'),
-        paragraphs = this.model.get('text').split('\n'),
-        formString = '<div class ="form-group"><form action = "http://editsober.herokuapp.com/txt" method="POST"><input type="hidden" name="token" value="s3cret-W0wWwWw"><input type="hidden" class="textstring" name="text" value=""><input type="submit" value="Save as TXT file" class="btn btn-primary pull-right"></form></div>';
+        text = this.model.get('text'),
+        formString = '<div class ="form-group"><form action = "http://editsober.herokuapp.com/txt" method="POST"><input type="hidden" name="token" value="s3cret-W0wWwWw"><input type="hidden" class="textstring" name="text" value=""><input type="submit" value="Save as TXT file" class="btn btn-primary pull-right"><br><textarea id="readspace"></textarea></form></div>';
 
-    $workspace.html(formString)
-    _.each(paragraphs, function(graf){
-      $workspace.append( self.template({paragraph: graf }) )
-    });
+    this.$('.readcolumn').html(formString)
+    this.$('#readspace').val(text);
+    this.$('.textstring').val(text);
+  },
 
-    this.$('.textstring').val(this.model.get('text'));
+  keyEvent: function(e) {
+    switch(e.which){
+      case 8: //backspace
+      case 13: //enter
+      case 46: //delete
+        this.persistChanges();
+      case 37: // arrows
+      case 38:
+      case 39:
+      case 40:
+        break;
+      default:
+        // regular keys shouldn't work
+        e.preventDefault();
+        break;
+    }
+
+  },
+
+  persistChanges: function(){
+    var text = this.$('#readspace').val()
+    this.model.set('text', text);
+    this.$('.textstring').val(text);
   },
 
   close: function(){
+    this.persistChanges();
     this.remove();
     $(document.body).removeClass('sober');
     $(document.body).append('<div class="container" id="main"></div>')

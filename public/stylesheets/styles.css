@@ -60,15 +60,24 @@ body.sober #main {
   height: 100%;
 }
 
-textarea {
-  background-color: black;
-}
 
 #writespace {
   border: none;
   outline: none;
   background-color: black;
   color: #0C6;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  font-family: "Cousine", monospace;
+}
+
+#readspace {
+  border: none;
+  outline: none;
+  background-color: #DDA;
+  color: #553;
+  font-size: 18px;
   width: 100%;
   height: 100%;
   min-height: 600px;
